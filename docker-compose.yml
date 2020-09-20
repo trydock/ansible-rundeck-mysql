@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  rundeck_web:
+    build: ./build
+    links:
+      - rundeck_db
+    environment:
+      RUNDECK_DATABASE_DRIVER: com.mysql.jdbc.Driver
+      RUNDECK_DATABASE_USERNAME: rdmydbuser
+      RUNDECK_DATABASE_PASSWORD: 76xAsm50hKHxR2m4
+      RUNDECK_DATABASE_URL: jdbc:mysql://rundeck_db/rundeck?autoReconnect=true&useSSL=false
+    volumes:
+      - ./config/rundeck/realm.properties:/home/rundeck/server/config/realm.properties
+      - ./config/rundeck/ssh-keys:/home/rundeck/.ssh
+      - ./config/sudoers:/etc/sudoers
+      - ./data/rundeck:/data
+    ports:
+      - 4440:4440
+    networks:
+      - rundeck-mysql-net-01
+  rundeck_dbx:
+    image: adminer:latest
+    links:
+      - rundeck_db
+    environment:
+      ADMINER_PLUGINS: tables-filter tinymce
+    ports:
+      - 8080:8080
+    networks:
+      - rundeck-mysql-net-01
+  rundeck_db:
+    image: mysql:5.7
+    expose:
+      - 3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=anish123
+      - MYSQL_DATABASE=rundeck
+      - MYSQL_USER=rdmydbuser
+      - MYSQL_PASSWORD=76xAsm50hKHxR2m4
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - rundeck-mysql-net-01
+
+networks:
+  rundeck-mysql-net-01:
+    driver: bridge
