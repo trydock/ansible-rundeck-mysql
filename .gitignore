@@ -6,6 +6,7 @@
 
 # SSH keys
 config/rundeck/ssh-keys/*
+!config/rundeck/ssh-keys/readme.txt
 
 # Data Directories
 data/mysql/*
