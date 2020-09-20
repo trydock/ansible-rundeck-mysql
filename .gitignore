@@ -1,0 +1,12 @@
+# .gitignore
+
+# Backup files
+*.bkp
+*.back
+
+# SSH keys
+config/rundeck/ssh-keys/*
+
+# Data Directories
+data/mysql/*
+data/rundeck/*
