@@ -10,3 +10,5 @@ config/rundeck/ssh-keys/*
 # Data Directories
 data/mysql/*
 data/rundeck/*
+!data/mysql/.placeholder
+!data/rundeck/.placeholder
